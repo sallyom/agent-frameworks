@@ -1,0 +1,26 @@
+# 1. Grant `cluster-monitoring-view` role to the `grafana-sa`
+#  oc adm policy add-cluster-role-to-user cluster-monitoring-view -z grafana-sa
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: prometheus
+  namespace: observability-hub
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana   # This label matches the grafana Grafana instance
+  datasource:
+    name: prometheus
+    access: proxy
+    editable: true
+    type: prometheus
+    url: 'https://thanos-querier.openshift-monitoring.svc.cluster.local:9091'
+    isDefault: true
+    jsonData:
+      httpHeaderName1: 'Authorization'
+      timeInterval: 5s
+      tlsSkipVerify: true
+      name: Prometheus
+    secureJsonData:
+      httpHeaderValue1: 'Bearer ${BEARER_TOKEN}'
+    name: prometheus
