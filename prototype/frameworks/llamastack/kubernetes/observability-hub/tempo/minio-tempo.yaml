@@ -27,10 +27,11 @@ spec:
               mkdir -p /storage/tempo && \
               minio server /storage
           env:
+            # TEST VALUES ONLY USED IN TEST DEV ENV
             - name: MINIO_ROOT_USER
-              value: tempo
+              value: tempo # notsecret 
             - name: MINIO_ROOT_PASSWORD
-              value: supersecret
+              value: supersecret # notsecret
           ports:
             - containerPort: 9000
               protocol: TCP
